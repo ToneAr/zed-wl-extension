@@ -1,0 +1,13 @@
+name = "Wolfram Language"
+grammar = "wolfram"
+path_suffixes = ["wl", "wlt", "m", "mt", "wls", "nb", "cdf", "tr"]
+block_comment = ["(*", "*)"]
+brackets = [
+    { start = "[", end = "]", close = true, newline = true },
+    { start = "(", end = ")", close = true, newline = false },
+    { start = "{", end = "}", close = true, newline = false },
+    { start = "<|", end = "|>", close = true, newline = false },
+    { start = "\"", end = "\"", close = true, newline = false, not_in = [
+        "string",
+    ] },
+]

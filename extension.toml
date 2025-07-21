@@ -1,0 +1,26 @@
+id = "wolfram-language-zed"
+name = "Wolfram Language"
+version = "0.4.0"
+schema_version = 1
+description = "Wolfram Language support with LSP"
+authors = ["Antonis Aristeidou <tonyaris@outlook.com>"]
+themes = ["themes/wolfram-dark.json", "themes/wolfram-light.json", "themes/wolfram-dark-rainbow.json", "themes/wolfram-default.json"]
+icon_themes = []
+languages = ["languages/wolfram"]
+capabilities = []
+
+[grammars.wolfram]
+repository = "https://github.com/LumaKernel/tree-sitter-wolfram.git"
+rev = "ab3506a5b49b7d76a8ed06958d0b2b7be91a5d34"
+
+# [lib]
+
+[language_servers.wolfram-lsp]
+name = "Wolfram LSP"
+languages = ["Wolfram Language"]
+
+# [context_servers]
+
+# [slash_commands]
+
+# [indexed_docs_providers]

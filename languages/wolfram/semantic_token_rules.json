@@ -1,0 +1,103 @@
+[
+  {
+    "token_modifiers": ["error"],
+    "underline": "#c93f3f",
+    "font_weight": "bold"
+  },
+  {
+    "token_modifiers": ["shadowed"],
+    "underline": true
+  },
+  {
+    "token_modifiers": ["unused"],
+    "font_style": "italic"
+  },
+  {
+    "token_modifiers": ["definition"],
+    "font_weight": "bold"
+  },
+  {
+    "token_type": "variable",
+    "token_modifiers": ["Module"],
+    "style": ["variable.Module"],
+    "underline": true
+  },
+  {
+    "token_type": "variable",
+    "token_modifiers": ["Block"],
+    "style": ["variable.Block"],
+    "font_style": "italic"
+  },
+  {
+    "token_type": "variable",
+    "token_modifiers": ["With"],
+    "style": ["variable.With"],
+    "underline": true
+  },
+  {
+    "token_type": "constant",
+    "token_modifiers": ["With"],
+    "style": ["constant.With"],
+    "font_weight": "bold"
+  },
+  {
+    "token_type": "parameter",
+    "token_modifiers": ["Module"],
+    "style": ["parameter.Module"],
+    "underline": true
+  },
+  {
+    "token_type": "parameter",
+    "token_modifiers": ["Block"],
+    "style": ["parameter.Block"],
+    "font_style": "italic"
+  },
+  {
+    "token_type": "parameter",
+    "token_modifiers": ["With"],
+    "style": ["parameter.With"],
+    "font_weight": "bold"
+  },
+  {
+    "token_type": "function",
+    "token_modifiers": ["Module"],
+    "style": ["function.Module"],
+    "underline": true
+  },
+  {
+    "token_type": "function",
+    "token_modifiers": ["Block"],
+    "style": ["function.Block"],
+    "font_style": "italic"
+  },
+  {
+    "token_type": "function",
+    "token_modifiers": ["With"],
+    "style": ["function.With"],
+    "underline": true
+  },
+  {
+    "token_type": "variable",
+    "token_modifiers": ["unused"],
+    "style": ["variable.unused"],
+    "font_style": "italic"
+  },
+  {
+    "token_type": "parameter",
+    "token_modifiers": ["unused"],
+    "style": ["parameter.unused"],
+    "font_style": "italic"
+  },
+  {
+    "token_type": "function",
+    "token_modifiers": ["unused"],
+    "style": ["function.unused"],
+    "font_style": "italic"
+  },
+  {
+    "token_type": "constant",
+    "token_modifiers": ["unused"],
+    "style": ["constant.unused"],
+    "font_style": "italic"
+  }
+]
