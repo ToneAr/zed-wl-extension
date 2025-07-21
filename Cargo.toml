@@ -1,0 +1,12 @@
+[package]
+name = "wolfram-language-zed"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+path = "src/wolfram.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+wolfram-app-discovery = "0.4.9"
+zed_extension_api = "0.1.0"
