@@ -10,9 +10,8 @@ languages = ["languages/wolfram"]
 capabilities = []
 
 [grammars.wolfram]
-repository = "https://github.com/LumaKernel/tree-sitter-wolfram.git"
-rev = "ab3506a5b49b7d76a8ed06958d0b2b7be91a5d34"
-
+repository = "https://github.com/mtirard/zed-wolfram-treesitter.git"
+rev = "e4ebb3fde50391550b2e234bc0333447ca2e48c3"
 # [lib]
 
 [language_servers.wolfram-lsp]

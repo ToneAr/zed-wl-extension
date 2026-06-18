@@ -5,7 +5,14 @@ use zed_extension_api as zed;
 
 const LANGUAGE_SERVER_NAME: &str = "wolfram-lsp";
 const START_SERVER_CODE: &str = "Needs[\"LSPServer`\"];LSPServer`StartServer[]";
-const KERNEL_CANDIDATES: [&str; 3] = ["WolframKernel", "MathKernel", "wolframscript"];
+const KERNEL_CANDIDATES: [&str; 6] = [
+    "WolframKernel",
+    "WolframKernel.exe",
+    "MathKernel",
+    "MathKernel.exe",
+    "wolframscript",
+    "wolframscript.exe",
+];
 const SAFE_ENV_VARS: [&str; 11] = [
     "HOME",
     "PATH",
@@ -36,6 +43,7 @@ struct WLExtension;
 struct ExtensionLaunchSettings {
     kernel_path: Option<String>,
     arguments: Option<Vec<String>>,
+    semantic_tokens: Option<bool>,
 }
 
 struct WLBinary {
@@ -104,13 +112,17 @@ impl WLExtension {
                     .collect::<Option<Vec<_>>>()
             })
             .filter(|arguments| !arguments.is_empty());
+        let semantic_tokens = extension_settings
+            .get("semantic_tokens")
+            .and_then(Value::as_bool);
 
-        if kernel_path.is_none() && arguments.is_none() {
+        if kernel_path.is_none() && arguments.is_none() && semantic_tokens.is_none() {
             None
         } else {
             Some(ExtensionLaunchSettings {
                 kernel_path,
                 arguments,
+                semantic_tokens,
             })
         }
     }
@@ -160,7 +172,15 @@ impl WLExtension {
     }
 
     fn merged_initialization_options(worktree: &Worktree) -> Option<Value> {
-        let mut options = match Self::raw_initialization_options(worktree) {
+        Self::merged_initialization_options_from_value(Self::raw_initialization_options(worktree))
+    }
+
+    fn merged_initialization_options_from_value(raw_options: Option<Value>) -> Option<Value> {
+        let semantic_tokens = raw_options
+            .as_ref()
+            .and_then(Self::extension_launch_settings_from_value)
+            .and_then(|settings| settings.semantic_tokens);
+        let mut options = match raw_options {
             Some(Value::Object(mut options)) => {
                 options.remove("zed_extension");
                 options
@@ -168,8 +188,19 @@ impl WLExtension {
             Some(_) | None => Map::new(),
         };
 
-        options.insert("semanticTokens".to_string(), Value::Bool(true));
-        Some(Value::Object(options))
+        if let Some(semantic_tokens) = semantic_tokens {
+            options.insert("semanticTokens".to_string(), Value::Bool(semantic_tokens));
+        } else {
+            options
+                .entry("semanticTokens".to_string())
+                .or_insert(Value::Bool(true));
+        }
+
+        if options.is_empty() {
+            None
+        } else {
+            Some(Value::Object(options))
+        }
     }
 }
 
@@ -203,7 +234,7 @@ impl zed::Extension for WLExtension {
         _language_server_id: &LanguageServerId,
         worktree: &Worktree,
     ) -> zed::Result<Option<Value>> {
-        eprintln!("wolfram-language-zed: enabling semanticTokens initialization option");
+        eprintln!("wolfram-language-zed: preparing Wolfram LSP initialization options");
         Ok(Self::merged_initialization_options(worktree))
     }
 
@@ -243,6 +274,7 @@ mod tests {
                     "-run".to_string(),
                     "Needs[\"LSPServer`\"];LSPServer`StartServer[]".to_string()
                 ]),
+                semantic_tokens: None,
             })
         );
     }
@@ -263,8 +295,57 @@ mod tests {
             Some(ExtensionLaunchSettings {
                 kernel_path: Some("/tmp/WolframKernel".to_string()),
                 arguments: None,
+                semantic_tokens: None,
             })
         );
+    }
+
+    #[test]
+    fn parses_semantic_tokens_opt_in() {
+        let value = json!({
+            "zed_extension": {
+                "semantic_tokens": true
+            }
+        });
+
+        let launch_settings = WLExtension::extension_launch_settings_from_value(&value);
+
+        assert_eq!(
+            launch_settings,
+            Some(ExtensionLaunchSettings {
+                kernel_path: None,
+                arguments: None,
+                semantic_tokens: Some(true),
+            })
+        );
+    }
+
+    #[test]
+    fn enables_semantic_tokens_by_default() {
+        let merged = WLExtension::merged_initialization_options_from_value(None);
+
+        assert_eq!(merged, Some(json!({ "semanticTokens": true })));
+    }
+
+    #[test]
+    fn preserves_top_level_semantic_tokens_setting() {
+        let merged = WLExtension::merged_initialization_options_from_value(Some(json!({
+            "semanticTokens": false
+        })));
+
+        assert_eq!(merged, Some(json!({ "semanticTokens": false })));
+    }
+
+    #[test]
+    fn zed_extension_semantic_tokens_setting_overrides_top_level_setting() {
+        let merged = WLExtension::merged_initialization_options_from_value(Some(json!({
+            "semanticTokens": true,
+            "zed_extension": {
+                "semantic_tokens": false
+            }
+        })));
+
+        assert_eq!(merged, Some(json!({ "semanticTokens": false })));
     }
 
     #[test]
@@ -272,6 +353,14 @@ mod tests {
         let args = WLExtension::resolved_args("/tmp/WolframKernel", None);
 
         assert_eq!(args, WLExtension::default_args("/tmp/WolframKernel"));
+    }
+
+    #[test]
+    fn uses_wolframscript_args_for_windows_executable() {
+        let args =
+            WLExtension::default_args(r"C:\\Program Files\\Wolfram Research\\wolframscript.exe");
+
+        assert_eq!(args, super::WOLFRAMSCRIPT_ARGS);
     }
 
     #[test]

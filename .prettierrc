@@ -1,0 +1,6 @@
+{
+	"plugin": ["@wrel/prettier-plugin-wolfram"],
+	"useTabs": true,
+	"tabWidth": 4,
+	"wolframEnginePath": "/home/tonya/Wolfram/Wolfram/15.1/Executables/WolframKernel"
+}

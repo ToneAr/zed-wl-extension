@@ -345,7 +345,7 @@
             "font_weight": null
           },
           "parameter": {
-            "color": "#e4861b",
+            "color": "#D4D4D4",
             "font_style": null,
             "font_weight": null
           },
@@ -391,12 +391,12 @@
           },
           "variable.shadowed": {
             "color": "#f2430e",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "variable.unused": {
             "color": "#D4D4D4",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "variable.error": {
@@ -426,12 +426,12 @@
           },
           "parameter.shadowed": {
             "color": "#f2430e",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "parameter.unused": {
             "color": "#D4D4D4",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "parameter.error": {
@@ -490,18 +490,18 @@
             "font_weight": null
           },
           "constant.With": {
-            "color": "#FFC66D",
+            "color": "#79a185",
             "font_style": null,
             "font_weight": null
           },
           "constant.shadowed": {
             "color": "#448959",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "constant.unused": {
             "color": "#D4D4D4",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "constant.error": {

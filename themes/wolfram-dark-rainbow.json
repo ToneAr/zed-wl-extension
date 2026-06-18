@@ -391,12 +391,12 @@
           },
           "variable.shadowed": {
             "color": "#f2430e",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "variable.unused": {
             "color": "#888888",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "variable.error": {
@@ -426,12 +426,12 @@
           },
           "parameter.shadowed": {
             "color": "#f2430e",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "parameter.unused": {
             "color": "#888888",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "parameter.error": {
@@ -496,12 +496,12 @@
           },
           "constant.shadowed": {
             "color": "#f2430e",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "constant.unused": {
             "color": "#888888",
-            "font_style": "italic",
+            "font_style": null,
             "font_weight": null
           },
           "constant.error": {
